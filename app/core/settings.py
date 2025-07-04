@@ -3,6 +3,10 @@ from pydantic import BaseModel
 
 
 class Settings(BaseModel):
+    """
+    Global Settings for the whole Application.
+    And Loads data from the environment also.
+    """
     DATABASE_URL: str = os.getenv("DATABASE_URL", "")
     SECRET_KEY: str = os.getenv("SECRET_KEY", "qwerty")
     ALGORITHM: str = "HS256"

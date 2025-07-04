@@ -8,6 +8,9 @@ from pydantic import BaseModel, EmailStr
 Base = declarative_base()
 
 class User(Base):
+    """
+    Users Class(ORM) that interfaces the database
+    """
     __tablename__ = "users"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     username = Column(String, index=True, nullable=False)
@@ -16,6 +19,9 @@ class User(Base):
     tier = Column(String, default="free", nullable=False)
 
 
+"""
+These classes are pydantic classes for FastAPI to do data validation
+"""
 class UserAuthLogin(BaseModel):
     email: EmailStr
     password: str

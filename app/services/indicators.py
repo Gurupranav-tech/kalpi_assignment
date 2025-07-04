@@ -6,22 +6,33 @@ from app.core.settings import settings
 
 
 class Indicators:
+    """
+    Indicators are computed when any of the compute method is called on the instance
+    """
     def __init__(self, filename: str = ""):
+        # Lazily load the dataframe into memory. RUST
         self.lazy_df = pl.scan_parquet(filename)
 
     def filter(self, start: str, end: str, symbol: str, tier: str) -> pl.LazyFrame:
+        """
+        Filters the data based on the start date and end date only if the tier limit permits the range
+        """
         start_dt = datetime.strptime(start, "%Y-%m-%d")
         end_dt = datetime.strptime(end, "%Y-%m-%d")
         max_delta = timedelta(days=settings.TIER_CONFIG[tier]["max_months"] * 30)
         if end_dt - start_dt > max_delta:
             raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Date range exceeds your tier limit ({settings.TIER_CONFIG[tier]['max_months']} months).")
         
+        # The operation is carried out lazily so it won't be computed until the collect() method is invoked
         return self.lazy_df.filter(
             (pl.col("symbol") == symbol) &
             (pl.col("date") >= start_dt) &
             (pl.col("date") <= end_dt)
         )
 
+    """
+    All the below methods compute the indicators and invokes the collect() method to actually compute them and turns the results into python dictionary from RUST datastructure
+    """
     def compute_sma(self, df: pl.LazyFrame, window: int):
         return df.with_columns(
             pl.col("close").rolling_mean(window_size=window).alias(f"sma_{window}")

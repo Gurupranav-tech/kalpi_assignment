@@ -1,3 +1,6 @@
+"""
+Standard organization of a python app
+"""
 from fastapi import APIRouter
 
 
