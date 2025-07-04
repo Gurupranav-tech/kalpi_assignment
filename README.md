@@ -172,7 +172,7 @@ curl -X GET "http://localhost:8000/api/v1/indicators/RELIANCE?indicator_name=sma
   <img src="https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Gmail"/>
 </a>
 
-* <a href="https://www.linkedin.com/in/your-profile-id/" target="_blank">
+* <a href="https://www.linkedin.com/in/p-r-guru-pranav-20b32722a" target="_blank">
   <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
 </a>
 
